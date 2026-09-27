@@ -4,17 +4,17 @@ A personal practice project for learning basic Earth Observation (EO) libraries 
 
 ## Overview
 
-This project works with Sentinel-2 L2A satellite imagery, queried through the [Element84 STAC API](https://www.element84.com/earth-search/), to practice:
+This project uses Sentinel-2 L2A satellite imagery, from [Element84 STAC API](https://www.element84.com/earth-search/), to practice the core Earth Observation and geospatial data workflows.
 
 ## Goal
 
-Beyond building core EO skills, the longer-term goal of this project is to apply the pipeline to a real-world use case: studying **land cover change over time**, specifically:
+Beyond building core EO skills, the long term goal of this project is to apply the pipeline to a real world use case: studying **land cover change over time**, specifically:
 
 - **Deforestation**, detecting vegetation loss in the AOI over a given period
 - **Wildfire impact**, identifying burn scars and vegetation stress following fire events
 - **Reforestation efforts**, tracking vegetation recovery/regrowth over subsequent seasons/years
 
-This will build on the vegetation index and time-series work in Phases 4–5, extended with change-detection techniques.
+This will build on the vegetation index and timeseries work in Phases 4–5, extended with change detection techniques.
 
 This project practices:
 
@@ -26,7 +26,7 @@ This project practices:
 - Working with Zarr for storing multidimensional array data
 - Mosaicking/cropping tiles to an AOI
 - Calculating vegetation indices (e.g. NDVI)
-- Time-series analysis of vegetation indices across seasons
+- Timeseries analysis of vegetation indices across seasons
 
 ## Project Structure
 
@@ -36,7 +36,7 @@ This project practices:
 ├── data/
 │   ├── aoi/                 # AOI GeoJSON file(s)
 │   ├── stac/                # Saved STAC search results (JSON)
-│   └── datacube/            # Zarr-stored datacubes
+│   └── datacube/            # Zarr stored datacubes
 ├── README.md
 └── requirements.txt
 ```
@@ -44,7 +44,7 @@ This project practices:
 
 ## Tools & Libraries
 
-- **STAC / Data access:** `pystac-client` — query Element84 Earth Search
+- **STAC / Data access:** `pystac-client`
 - **Raster & vector I/O:** `rioxarray`, `geopandas`, `shapely`
 - **Data cubes:** `xarray`
 - **Data handling:** `pandas`, `numpy`
@@ -55,12 +55,12 @@ See `requirements.txt` for exact pinned versions
 
 ## Workflow / TODO
 
-### Phase 1 — Setup & Data Discovery
+### Phase 1  Setup & Data Discovery
 - [x] Define AOI with geojson.io
-- [x] Search Element84 STAC API for Sentinel-2 L2A scenes (AOI + 10-day window)
+- [x] Search Element84 STAC API for Sentinel-2 L2A scenes (AOI + 10 day window)
 - [x] Save search results to JSON
 
-### Phase 2 — Single Tile Exploration
+### Phase 2  Single Tile Exploration
 - [x] Extract RGB bands from one tile
 - [x] Build 3D multiband array (RGB)
 - [x] Convert DN to surface reflectance
@@ -69,43 +69,43 @@ See `requirements.txt` for exact pinned versions
 - [x] Load RGB bands from collection items into a datacube (xarray)
 - [x] Save datacube to Zarr
 
-### Phase 3 — AOI-based Mosaic
+### Phase 3 AOI based Mosaic
 - [ ] Reproject tiles to a common CRS if needed (check UTM zones across tiles)
 - [ ] Merge/mosaic overlapping tiles covering the AOI
 - [ ] Clip the mosaic to the exact AOI geometry (mask with the geojson polygon)
-- [ ] Re-plot RGB to confirm the AOI-only crop looks correct
-- [ ] Update/re-save the Zarr datacube to store the AOI-cropped version instead of per-tile data
+- [ ] Replot RGB to confirm the AOI only crop looks correct
+- [ ] Update the Zarr datacube to store the AOI cropped version instead of per tile data
 
-### Phase 4 — Vegetation Index
-- [ ] Extract additional bands needed (e.g. NIR for NDVI, or Red-Edge for NDRE)
+### Phase 4 Vegetation Index
+- [ ] Extract additional bands needed (e.g. NIR for NDVI, or Red Edge for NDRE)
 - [ ] Add NIR (and any other required bands) into the datacube
 - [ ] Calculate vegetation index
-- [ ] Handle edge cases (cloud/no-data masking)
+- [ ] Handle edge cases (cloud/no data masking)
 - [ ] Plot NDVI with an appropriate colormap
-- [ ] Sanity-check values against known vegetation/water/urban areas in the AOI
+- [ ] Sanity check values against known vegetation/water/urban areas in the AOI
 
-### Phase 5 — Temporal Analysis
+### Phase 5 Temporal Analysis
 - [ ] Query STAC for a wider time window (e.g. full growing season or full year)
 - [ ] Filter for cloud cover threshold to drop unusable scenes
-- [ ] Batch-download/process the expanded set of scenes into the datacube (time dimension)
+- [ ] Batch download/process the expanded set of scenes into the datacube (time dimension)
 - [ ] Compute NDVI for each timestamp
 - [ ] Aggregate/resample if needed (e.g. monthly composites, handle gaps)
-- [ ] Plot NDVI time series (mean over AOI, or per-pixel animation/facet grid)
-- [ ] Compare seasonal patterns — identify peak greenness, senescence, etc.
+- [ ] Plot NDVI time series (mean over AOI, or per pixel animation/facet grid)
+- [ ] Compare seasonal patterns (e.g. identify peak greenness, senescence)
 
-### Phase 6 — Change Detection (Deforestation / Wildfire / Reforestation)
+### Phase 6 Change Detection (Deforestation / Wildfire / Reforestation)
 - [ ] Select before/after time periods relevant to a known event or general monitoring window
 - [ ] Calculate NBR (Normalized Burn Ratio) for wildfire/burn scar detection, if SWIR band available
 - [ ] Compute NDVI (or NBR) difference between time periods
 - [ ] Threshold the difference to flag significant vegetation loss (deforestation/fire) or gain (reforestation)
 - [ ] Plot change map highlighting loss/gain areas over the AOI
-- [ ] Cross-check flagged areas against known events (fire perimeters, land-use records) if available
+- [ ] Cross-check flagged areas against known events (fire perimeters, land use records) if available
 - [ ] Summarize findings (area affected, recovery trend over time, etc.)
 
 ### Optional Stretch Goals
-- [ ] Compare NDVI against another index for cross-validation
-- [ ] Export final time series as CSV/plot for a short write-up
+- [ ] Compare NDVI against another index for cross validation
+- [ ] Export the final time series as CSV and plots to document and share the findings
 
 ## Status
 
-Work in progress, currently working on Phase 3 (AOI-based mosaic).
+Work in progress, currently working on Phase 3 (AOI based Mosaic).
